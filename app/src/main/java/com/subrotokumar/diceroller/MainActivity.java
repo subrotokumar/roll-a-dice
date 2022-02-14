@@ -18,48 +18,60 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    Random random;
     protected void onCreate(Bundle savedInstanceState) {
         binding= ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getSupportActionBar().hide();
         setContentView(binding.getRoot());
+        random=new Random();
 
-        Random random=new Random();
         binding.btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int face= random.nextInt(6)+1;
-                animate();
-                final Handler handler=new Handler(Looper.getMainLooper());
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.tvResult.setText(String.valueOf(face));
-                        switch(face){
-                            case 1:
-                                binding.ivDice.setImageResource(R.drawable.dice_icon_1);
-                                break;
-                            case 2:
-                                binding.ivDice.setImageResource(R.drawable.dice_icon_2);
-                                break;
-                            case 3:
-                                binding.ivDice.setImageResource(R.drawable.dice_icon_3);
-                                break;
-                            case 4:
-                                binding.ivDice.setImageResource(R.drawable.dice_icon_4);
-                                break;
-                            case 5:
-                                binding.ivDice.setImageResource(R.drawable.dice_icon_5);
-                                break;
-                            case 6:
-                                binding.ivDice.setImageResource(R.drawable.dice_icon_6);
-                                break;
-                        }
-                    }
-                },1000);
+                roll();
             }
         });
+        binding.ivDice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roll();
+            }
+        });
+    }
+    public void roll()
+    {
+        int face= random.nextInt(6)+1;
+        animate();
+        final Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binding.tvResult.setText(String.valueOf(face));
+                switch(face){
+                    case 1:
+                        binding.ivDice.setImageResource(R.drawable.dice_icon_1);
+                        break;
+                    case 2:
+                        binding.ivDice.setImageResource(R.drawable.dice_icon_2);
+                        break;
+                    case 3:
+                        binding.ivDice.setImageResource(R.drawable.dice_icon_3);
+                        break;
+                    case 4:
+                        binding.ivDice.setImageResource(R.drawable.dice_icon_4);
+                        break;
+                    case 5:
+                        binding.ivDice.setImageResource(R.drawable.dice_icon_5);
+                        break;
+                    case 6:
+                        binding.ivDice.setImageResource(R.drawable.dice_icon_6);
+                        break;
+                }
+            }
+        },1000);
     }
     public void animate() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(binding.ivDice, "rotation", 0f, 360f);
